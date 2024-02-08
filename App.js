@@ -1,41 +1,66 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-const App = () => {
+const Calculator = () => {
   return (
-    <View style={styles.contenedor}>
-      <StatusBar backgroundColor="#000" barStyle="light-content" />
-      <View style={styles.pantalla}>
-        <View style={styles.superior}>
-          <Text style={styles.titulo}> X </Text>
-          <Text style={styles.subtitulo}>Para ti &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Siguiendo </Text>
+      <View style={styles.container}>
+      <Text style={styles.display}>0</Text>
+      <View style={styles.buttons}>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>2</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>3</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>/</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.contenido}>
-          <View style={styles.tweet}>
-            <Text>&nbsp;</Text>
-            <Image source={require('./img/FT nano.jpg')} style={styles.avatar} />
-            <View style={styles.contenidoTweet}>
-              <View style={styles.informacionUsuario}>
-                <Text style={styles.nombreUsuario}>Neftali_623</Text>
-                <Text style={styles.alias}>@elnefta_623</Text>
-              </View>
-              <Text style={styles.textoTweet}>
-                🇲🇽 ¡Viva México! 🌮✨ Disfrutando de la rica comida, la cultura vibrante y la calidez de su gente. #Mexico #TravelAdventures 🌎❤️
-              </Text>
-              <View style={styles.accionesTweet}>
-                <Text>💬 200</Text>
-                <Text>🔁 500</Text>
-                <Text>❤️ 100</Text>
-                <Image source={require('./img/barras.png')} style={styles.icono} />
-              </View>
-            </View>
-          </View>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>4</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>5</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>6</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>*</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.iconos}>
-          <Image source={require('./img/inic.png')} style={styles.icono} />
-          <Image source={require('./img/busc.png')} style={styles.icono} />
-          <Image source={require('./img/not.png')} style={styles.icono} />
-          <Image source={require('./img/icono.png')} style={styles.icono} />
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>7</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>8</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>9</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>0</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>C</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>=</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>+</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -43,80 +68,45 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  contenedor: {
+  container: {
     flex: 1,
-    backgroundColor: '#000',
-  },
-  pantalla: {
-    flex: 1,
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  superior: {
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'lightgreen',
   },
-  titulo: {
-    color: 'whitesmoke',
-    fontSize: 24,
+  display:{
+      backgroundColor: 'white',
+      padding: 10,
+      margin: 10,
+      borderRadius:100,
+      width: '80%',
+      alignItems: 'flex-end',
+      fontSize:32,
+      fontStyle:'italic',
+      
   },
-  subtitulo: {
-    color: 'whitesmoke',
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 10,
+  buttons: {
+    flexDirection: 'column',
   },
-  contenido: {
-    flex: 1,
-    alignItems: 'center',
+  row: {
+    flexDirection: 'row',
     justifyContent: 'center',
   },
-  tweet: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  contenidoTweet: {
-    flex: 1,
-  },
-  informacionUsuario: {
-    flexDirection: 'row',
+  button: {
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
+    margin: 8,
+    borderColor:'black',
+    borderRadius:100
   },
-  nombreUsuario: {
-    color: 'whitesmoke',
-    margin: 0,
-    fontSize: 16,
-  },
-  alias: {
-    color: '#888',
-    marginLeft: 5,
-    fontSize: 12,
-  },
-  textoTweet: {
-    color: 'whitesmoke',
-    fontSize: 16,
-  },
-  accionesTweet: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
-    color: '#888',
-    fontSize: 14,
-  },
-  iconos: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-  },
-  icono: {
-    width: 30,
-    height: 30,
+  buttonText: {
+    fontSize: 25,
+    color:'black',
+    fontStyle:'italic'
   },
 });
 
-export default App;
+export default Calculator;

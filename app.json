@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "App_Clon",
-    "slug": "App_Clon",
+    "name": "Calculadora",
+    "slug": "Calculadora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
