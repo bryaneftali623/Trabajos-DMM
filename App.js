@@ -1,139 +1,100 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 
-const Calculadora = () => {
-  const [operacion, setOperacion] = useState('');
+const Productos2 = () => {
+    const [data, setData] = useState(null);
+    const [load, setLoad] = useState(false);
 
-  const NumPresionado = (numero) => {
-    if (operacion === 'Error') {
-      setOperacion(numero);
-    } else {
-      setOperacion(operacion + numero);
-    }
-  };
+    useEffect(() => {
+        fetch('https://fakestoreapi.com/products')
+            .then(res => res.json())
+            .then(obj => {
+                setData(obj);
+                setLoad(true);
+            })
+            .catch(err => Alert.alert('Error al consultar: ' + err));
+    }, []);
 
-  const OperadorPres = (op) => {
-    setOperacion(operacion + ' ' + op + ' ');
-  };
+    const UScreen = () => {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator color={'#ff6347'} size={'large'} />
+                <Text style={styles.text}>Cargando datos...</Text>
+            </View>
+        );
+    };
 
-  const IgualPres = () => {
-    try {
-      const resultado = eval(operacion);
-      setOperacion(operacion + ' = ' + resultado);
-    } catch (error) {
-      setOperacion('Error');
-    }
-  };
+    const LScreen = () => {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Datos Cargados</Text>
+                <FlatList
+                    data={data}
+                    renderItem={({ item }) => <Card
+                        title={item.title}
+                        price={item.price}
+                        image={item.image} />}
+                    keyExtractor={item => item.id.toString()} />
+            </View>
+        );
+    };
 
-  const BorrarPres = () => {
-    setOperacion('');
-  };
+    const Card = ({ title, price, image }) => {
+        return (
+            <View style={styles.card}>
+                <Image style={styles.image} source={{ uri: image }} />
+                <Text style={styles.cardText}>Producto: {title}</Text>
+                <Text style={styles.cardText}>Precio: {price} MXN</Text>
+            </View>
+        );
+    };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.display}>{operacion}</Text>
-      <View style={styles.buttons}>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('1')}>
-            <Text style={styles.buttonText}>1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('2')}>
-            <Text style={styles.buttonText}>2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('3')}>
-            <Text style={styles.buttonText}>3</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => OperadorPres('/')}>
-            <Text style={styles.buttonText}>/</Text>
-          </TouchableOpacity>
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Productos</Text>
+            {load ? <LScreen /> : <UScreen />}
         </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('4')}>
-            <Text style={styles.buttonText}>4</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('5')}>
-            <Text style={styles.buttonText}>5</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('6')}>
-            <Text style={styles.buttonText}>6</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => OperadorPres('*')}>
-            <Text style={styles.buttonText}>*</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('7')}>
-            <Text style={styles.buttonText}>7</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('8')}>
-            <Text style={styles.buttonText}>8</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('9')}>
-            <Text style={styles.buttonText}>9</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => OperadorPres('-')}>
-            <Text style={styles.buttonText}>-</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.button} onPress={() => NumPresionado('0')}>
-            <Text style={styles.buttonText}>0</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={BorrarPres}>
-            <Text style={styles.buttonText}>C</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={IgualPres}>
-            <Text style={styles.buttonText}>=</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => OperadorPres('+')}>
-            <Text style={styles.buttonText}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'lightgreen',
-  },
-  display:{
-      backgroundColor: 'white',
-      padding: 10,
-      margin: 10,
-      borderRadius:100,
-      width: '80%',
-      alignItems: 'flex-end',
-      fontSize:32,
-      fontStyle:'italic',
-      
-  },
-  buttons: {
-    flexDirection: 'column',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  button: {
-    width: 70,
-    height: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    margin: 8,
-    borderColor:'black',
-    borderRadius:100
-  },
-  buttonText: {
-    fontSize: 25,
-    color:'black',
-    fontStyle:'italic'
-  },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f0f8ff',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: '#ff4500',
+    },
+    text: {
+        fontSize: 18,
+        marginTop: 20,
+        color: '#ff6347',
+    },
+    card: {
+        marginVertical: 10,
+        padding: 10,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#ff4500',
+        width: '90%',
+        alignItems: 'center',
+    },
+    cardText: {
+        fontSize: 18,
+        marginTop: 5,
+        color: '#696969',
+    },
+    image: {
+        height: 85,
+        width: 85,
+        marginBottom: 10,
+    },
 });
 
-export default Calculadora;
+export default Productos2;
